@@ -4,7 +4,7 @@ import 'package:hexcolor/hexcolor.dart';
 import 'package:shop_app/shared/styles/colors.dart';
 
 ThemeData darkTheme = ThemeData(
-  fontFamily: 'ShortBaby',
+  fontFamily: 'ChrustyRock',
   primarySwatch: defaultColor,
   textTheme: const TextTheme(
       bodyMedium: TextStyle(
@@ -39,7 +39,7 @@ ThemeData darkTheme = ThemeData(
 );
 
 ThemeData themeLight = ThemeData(
-  fontFamily: 'ShortBaby',
+  fontFamily: 'ChrustyRock',
   textTheme: const TextTheme(
       bodyMedium: TextStyle(
     fontSize: 18.0,
@@ -48,9 +48,6 @@ ThemeData themeLight = ThemeData(
   )),
   primarySwatch: defaultColor,
   scaffoldBackgroundColor: Colors.white,
-  floatingActionButtonTheme: const FloatingActionButtonThemeData(
-    backgroundColor: defaultColor,
-  ),
   appBarTheme: const AppBarTheme(
     systemOverlayStyle: SystemUiOverlayStyle(
       statusBarColor: Colors.white,
