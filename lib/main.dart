@@ -29,9 +29,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: themeLight,
-      //!!!!!!
       darkTheme: darkTheme,
-
       // themeMode:
       //     NewsCubit.get(context).isDark ? ThemeMode.dark : ThemeMode.light,
 
