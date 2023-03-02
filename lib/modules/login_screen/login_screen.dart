@@ -1,8 +1,9 @@
-// ignore_for_file: must_be_immutable
+// ignore_for_file: must_be_immutable, avoid_print
 
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:shop_app/modules/login_screen/cubit/cubit.dart';
 import 'package:shop_app/modules/login_screen/cubit/states.dart';
 import 'package:shop_app/modules/register_screen/register_screen.dart';
@@ -13,18 +14,44 @@ class LoginScreen extends StatelessWidget {
   LoginScreen({super.key});
 
   var formKey = GlobalKey<FormState>();
+  var emailController = TextEditingController();
+  var passwordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => LoginCubit(),
       child: BlocConsumer<LoginCubit, LoginStates>(
-        listener: (context, state) {},
+        listener: (context, state) {
+          if (state is LoginSuccessState) {
+            if (state.loginModel.status!) {
+              print(state.loginModel.message);
+              print(state.loginModel.data!.token);
+              Fluttertoast.showToast(
+                msg: state.loginModel.message.toString(),
+                toastLength: Toast.LENGTH_LONG,
+                gravity: ToastGravity.TOP,
+                timeInSecForIosWeb: 5,
+                backgroundColor: Colors.green,
+                textColor: Colors.white,
+                fontSize: 20.0,
+              );
+            } else {
+              print(state.loginModel.message);
+              Fluttertoast.showToast(
+                msg: state.loginModel.message.toString(),
+                toastLength: Toast.LENGTH_LONG,
+                gravity: ToastGravity.TOP,
+                timeInSecForIosWeb: 5,
+                backgroundColor: defaultColor,
+                textColor: Colors.white,
+                fontSize: 20.0,
+              );
+            }
+          }
+        },
         builder: (context, state) {
           var cubit = LoginCubit.get(context);
-
-          var emailController = TextEditingController();
-          var passwordController = TextEditingController();
 
           return Scaffold(
             appBar: AppBar(),
@@ -76,6 +103,7 @@ class LoginScreen extends StatelessWidget {
                       defaultFormField(
                         controller: passwordController,
                         type: TextInputType.text,
+                        suffix: cubit.suffix,
                         onSubmit: (value) {
                           if (formKey.currentState!.validate()) {
                             cubit.loginUser(
@@ -84,6 +112,10 @@ class LoginScreen extends StatelessWidget {
                             );
                           }
                         },
+                        isPassword: cubit.isPassword,
+                        suffixPressed: () {
+                          cubit.changePasswordVisibility();
+                        },
                         validate: (value) {
                           if (value!.isEmpty) {
                             return 'Please don\'t let me empty';
@@ -91,12 +123,7 @@ class LoginScreen extends StatelessWidget {
                           return null;
                         },
                         label: 'Password',
-                        isPassword: cubit.isPassword,
-                        prefix: Icons.key,
-                        suffix: cubit.suffix,
-                        suffixPressed: () {
-                          cubit.changePasswordVisibility();
-                        },
+                        prefix: Icons.key_outlined,
                       ),
                       const SizedBox(height: 50.0),
                       Center(
