@@ -3,11 +3,12 @@
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:fluttertoast/fluttertoast.dart';
+import 'package:shop_app/layout/shop_layout/shop_layout.dart';
 import 'package:shop_app/modules/login_screen/cubit/cubit.dart';
 import 'package:shop_app/modules/login_screen/cubit/states.dart';
 import 'package:shop_app/modules/register_screen/register_screen.dart';
 import 'package:shop_app/shared/components/components.dart';
+import 'package:shop_app/shared/network/local/cache_helper.dart';
 import 'package:shop_app/shared/styles/colors.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -27,26 +28,16 @@ class LoginScreen extends StatelessWidget {
             if (state.loginModel.status!) {
               print(state.loginModel.message);
               print(state.loginModel.data!.token);
-              Fluttertoast.showToast(
-                msg: state.loginModel.message.toString(),
-                toastLength: Toast.LENGTH_LONG,
-                gravity: ToastGravity.TOP,
-                timeInSecForIosWeb: 5,
-                backgroundColor: Colors.green,
-                textColor: Colors.white,
-                fontSize: 20.0,
-              );
+              CacheHelper.saveData(
+                      key: "token", value: state.loginModel.data!.token)
+                  .then((value) {
+                navigateAndFinish(context, const ShopLayout());
+              });
             } else {
               print(state.loginModel.message);
-              Fluttertoast.showToast(
-                msg: state.loginModel.message.toString(),
-                toastLength: Toast.LENGTH_LONG,
-                gravity: ToastGravity.TOP,
-                timeInSecForIosWeb: 5,
-                backgroundColor: defaultColor,
-                textColor: Colors.white,
-                fontSize: 20.0,
-              );
+              showtoast(
+                  msg: state.loginModel.message.toString(),
+                  states: ToastStates.error);
             }
           }
         },

@@ -2,6 +2,7 @@
 
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 // ignore_for_file:prefer_const_constructors
 
 Widget defaultButton({
@@ -149,6 +150,7 @@ void navigateTo(context, widget) => Navigator.push(
         builder: (context) => widget,
       ),
     );
+
 void navigateAndFinish(context, widget) => Navigator.pushAndRemoveUntil(
       context,
       MaterialPageRoute(
@@ -156,3 +158,40 @@ void navigateAndFinish(context, widget) => Navigator.pushAndRemoveUntil(
       ),
       (route) => false,
     );
+
+Future<bool?> showtoast({
+  required String msg,
+  Toast toastLength = Toast.LENGTH_LONG,
+  ToastGravity gravity = ToastGravity.TOP,
+  int timeInSecForIosWeb = 1,
+  required ToastStates states,
+  Color textColor = Colors.white,
+  double fontSize = 16.0,
+}) =>
+    Fluttertoast.showToast(
+      msg: msg,
+      toastLength: toastLength,
+      gravity: gravity,
+      timeInSecForIosWeb: timeInSecForIosWeb,
+      backgroundColor: chooseToastColor(states),
+      textColor: textColor,
+      fontSize: fontSize,
+    );
+
+enum ToastStates { success, error, warinig }
+
+Color chooseToastColor(ToastStates state) {
+  Color color;
+  switch (state) {
+    case ToastStates.success:
+      color = Colors.green;
+      break;
+    case ToastStates.error:
+      color = Colors.red;
+      break;
+    case ToastStates.warinig:
+      color = Colors.amber;
+      break;
+  }
+  return color;
+}

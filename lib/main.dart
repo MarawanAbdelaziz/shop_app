@@ -2,7 +2,10 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shop_app/layout/shop_layout/shop_layout.dart';
+import 'package:shop_app/modules/login_screen/login_screen.dart';
 import 'package:shop_app/modules/on_boarding/on_boarding_screen.dart';
+import 'package:shop_app/shared/cubit/cubit.dart';
 import 'package:shop_app/shared/styles/themes.dart';
 import 'shared/bloc_observer.dart';
 import 'shared/network/local/cache_helper.dart';
@@ -14,26 +17,43 @@ void main() async {
   DioHelper.init();
   await CacheHelper.init();
 
-  bool? isDark = CacheHelper.getboolean(key: "isDark");
+  Widget widget;
+  bool? isDark = CacheHelper.getdata(key: "isDark");
+  bool? onBoarding = CacheHelper.getdata(key: "onBoarding");
+  String? token = CacheHelper.getdata(key: "token");
 
-  runApp(MyApp(isDark ?? false));
+  if (onBoarding != null) {
+    if (token != null) {
+      widget = ShopLayout();
+    } else {
+      widget = LoginScreen();
+    }
+  } else {
+    widget = OnBoardingScreen();
+  }
+
+  runApp(MyApp(isDark ?? false, widget));
 }
 
 class MyApp extends StatelessWidget {
-  final bool isDark;
+  final bool? isDark;
+  final Widget startWidget;
 
-  const MyApp(this.isDark);
+  const MyApp(this.isDark, this.startWidget);
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      theme: themeLight,
-      darkTheme: darkTheme,
-      // themeMode:
-      //     NewsCubit.get(context).isDark ? ThemeMode.dark : ThemeMode.light,
+    return BlocProvider(
+      create: (BuildContext context) => ShopCubit(),
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        theme: themeLight,
+        darkTheme: darkTheme,
+        // themeMode:
+        //     NewsCubit.get(context).isDark ? ThemeMode.dark : ThemeMode.light,
 
-      home: OnBoardingScreen(),
+        home: startWidget,
+      ),
     );
   }
 }
