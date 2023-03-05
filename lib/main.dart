@@ -8,6 +8,7 @@ import 'package:shop_app/modules/on_boarding/on_boarding_screen.dart';
 import 'package:shop_app/shared/cubit/cubit.dart';
 import 'package:shop_app/shared/styles/themes.dart';
 import 'shared/bloc_observer.dart';
+import 'shared/components/constants.dart';
 import 'shared/network/local/cache_helper.dart';
 import 'shared/network/network/dio_helper.dart';
 
@@ -20,9 +21,10 @@ void main() async {
   Widget widget;
   bool? isDark = CacheHelper.getdata(key: "isDark");
   bool? onBoarding = CacheHelper.getdata(key: "onBoarding");
-  String? token = CacheHelper.getdata(key: "token");
+  token = CacheHelper.getdata(key: "token");
 
   if (onBoarding != null) {
+    // ignore: unnecessary_null_comparison
     if (token != null) {
       widget = ShopLayout();
     } else {
@@ -44,7 +46,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (BuildContext context) => ShopCubit(),
+      create: (BuildContext context) => ShopCubit()..getHomeData(),
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         theme: themeLight,
