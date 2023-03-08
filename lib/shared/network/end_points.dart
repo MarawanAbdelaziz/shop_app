@@ -1,3 +1,5 @@
-const loginPage = 'login';
+const loginUrl = 'login';
 
-const homePage = 'home';
+const homeUrl = 'home';
+
+const getCategoriesUrl = 'categories';
