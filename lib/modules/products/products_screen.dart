@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors, sized_box_for_whitespace, avoid_unnecessary_containers
+// ignore_for_file: prefer_const_constructors, sized_box_for_whitespace, avoid_unnecessary_containers, avoid_print
 
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
@@ -217,10 +217,19 @@ class ProductsScreen extends StatelessWidget {
                         ),
                       Spacer(),
                       IconButton(
-                        padding: EdgeInsets.zero,
-                        onPressed: () {},
-                        icon: Icon(Icons.favorite_border),
-                      )
+                        onPressed: () {
+                          print(model.id);
+                        },
+                        icon: CircleAvatar(
+                          radius: 20,
+                          backgroundColor: Colors.grey,
+                          child: Icon(
+                            Icons.favorite_border,
+                            color: Colors.white,
+                            size: 22.0,
+                          ),
+                        ),
+                      ),
                     ],
                   ),
                 ],
