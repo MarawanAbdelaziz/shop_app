@@ -1,4 +1,4 @@
-// ignore_for_file: use_key_in_widget_constructors, prefer_const_constructors
+// ignore_for_file: use_key_in_widget_constructors, prefer_const_constructors, avoid_print
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -22,6 +22,7 @@ void main() async {
   bool? isDark = CacheHelper.getdata(key: "isDark");
   bool? onBoarding = CacheHelper.getdata(key: "onBoarding");
   token = CacheHelper.getdata(key: "token");
+  print(token);
 
   if (onBoarding != null) {
     // ignore: unnecessary_null_comparison
@@ -46,7 +47,10 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (BuildContext context) => ShopCubit()..getHomeData()..getCategories(),
+      create: (BuildContext context) => ShopCubit()
+        ..getHomeData()
+        ..getCategories()
+        ..getFavorites(),
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         theme: themeLight,
