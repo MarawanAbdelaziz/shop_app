@@ -12,6 +12,7 @@ Widget defaultButton({
   required Function function,
   required String text,
   bool isUpperCase = true,
+  double fontSize = 30.0,
 }) =>
     Container(
       width: width,
@@ -27,7 +28,7 @@ Widget defaultButton({
           isUpperCase ? text.toUpperCase() : text,
           style: TextStyle(
             color: Colors.white,
-            fontSize: 30.0,
+            fontSize: fontSize,
           ),
         ),
       ),

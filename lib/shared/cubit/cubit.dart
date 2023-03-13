@@ -6,6 +6,7 @@ import 'package:shop_app/models/shop_app/categories_model.dart';
 import 'package:shop_app/models/shop_app/change_favorites_model.dart';
 import 'package:shop_app/models/shop_app/favorites_model.dart';
 import 'package:shop_app/models/shop_app/home_model.dart';
+import 'package:shop_app/models/shop_app/login_model.dart';
 import 'package:shop_app/modules/cateogries/cateogries_screen.dart';
 import 'package:shop_app/modules/favorites/favorites_screen.dart';
 import 'package:shop_app/modules/products/products_screen.dart';
@@ -53,7 +54,7 @@ class ShopCubit extends Cubit<ShopStates> {
         favorites.addAll({element.id: element.inFavorites});
       }
 
-      print(favorites.toString());
+      // print(favorites.toString());
 
       emit(ShopSuccessCategoriesStates());
     }).catchError((error) {
@@ -85,7 +86,7 @@ class ShopCubit extends Cubit<ShopStates> {
     emit(ShopChangeFavoritesStates());
 
     DioHelper.postData(
-      url: aFavorites,
+      url: favoritesUrl,
       data: {'product_id': productId},
       token: token,
     ).then((value) {
@@ -107,19 +108,62 @@ class ShopCubit extends Cubit<ShopStates> {
   }
 
   FavoritesModel? favoritesModel;
+
   void getFavorites() {
     emit(ShopLoadingGetFavoritesStates());
     DioHelper.getData(
-      url: aFavorites,
+      url: favoritesUrl,
       token: token,
     ).then((value) {
       favoritesModel = FavoritesModel.fromJson(value.data);
-      printFullText(value.data.toString());
+      // printFullText(value.data.toString());
 
       emit(ShopSuccessGetFavoritesStates());
     }).catchError((error) {
       print(error.toString());
       emit(ShopErrorGetFavoritesStates());
+    });
+  }
+
+  LoginModel? userModel;
+
+  void getUsderData() {
+    emit(ShopLoadingUserDataStates());
+
+    DioHelper.getData(
+      url: profileUrl,
+      token: token,
+    ).then((value) {
+      userModel = LoginModel.fromJson(value.data);
+      //   printFullText(userModel!.data!.name.toString());
+
+      emit(ShopSuccessUserDataStates(userModel!));
+    }).catchError((error) {
+      print(error.toString());
+      emit(ShopErrorUserDataStates());
+    });
+  }
+
+  void updateUsderData({
+    required String name,
+    required String email,
+    required String phone,
+  }) {
+    emit(ShopLoadingUpdateUserStates());
+
+    DioHelper.putData(
+      url: updateProfileUrl,
+      token: token,
+      data: {
+        'name': name,
+        'email': email,
+        'phone': phone,
+      },
+    ).then((value) {
+      emit(ShopSuccessUpdateUserStates(userModel!));
+    }).catchError((error) {
+      print(error.toString());
+      emit(ShopErrorUpdateUserStates());
     });
   }
 }

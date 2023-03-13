@@ -1,7 +1,15 @@
+///wwdwadwad
+
 const loginUrl = 'login';
+
+const registerUrl = 'register';
 
 const homeUrl = 'home';
 
 const getCategoriesUrl = 'categories';
 
-const aFavorites = 'favorites';
+const favoritesUrl = 'favorites';
+
+const profileUrl = 'profile';
+
+const updateProfileUrl = 'update-profile';
