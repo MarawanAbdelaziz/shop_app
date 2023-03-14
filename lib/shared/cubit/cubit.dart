@@ -2,11 +2,11 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:shop_app/models/shop_app/categories_model.dart';
-import 'package:shop_app/models/shop_app/change_favorites_model.dart';
-import 'package:shop_app/models/shop_app/favorites_model.dart';
-import 'package:shop_app/models/shop_app/home_model.dart';
-import 'package:shop_app/models/shop_app/login_model.dart';
+import 'package:shop_app/models/categories_model.dart';
+import 'package:shop_app/models/change_favorites_model.dart';
+import 'package:shop_app/models/favorites_model.dart';
+import 'package:shop_app/models/home_model.dart';
+import 'package:shop_app/models/login_model.dart';
 import 'package:shop_app/modules/cateogries/cateogries_screen.dart';
 import 'package:shop_app/modules/favorites/favorites_screen.dart';
 import 'package:shop_app/modules/products/products_screen.dart';

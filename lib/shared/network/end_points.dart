@@ -13,3 +13,5 @@ const favoritesUrl = 'favorites';
 const profileUrl = 'profile';
 
 const updateProfileUrl = 'update-profile';
+
+const searchUrl = 'products/search';

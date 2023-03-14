@@ -1,4 +1,4 @@
-import 'package:shop_app/models/shop_app/login_model.dart';
+import 'package:shop_app/models/login_model.dart';
 
 abstract class LoginStates {}
 

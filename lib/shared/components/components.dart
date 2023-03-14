@@ -3,6 +3,8 @@
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:shop_app/shared/cubit/cubit.dart';
+import 'package:shop_app/shared/styles/colors.dart';
 // ignore_for_file:prefer_const_constructors
 
 Widget defaultButton({
@@ -196,3 +198,103 @@ Color chooseToastColor(ToastStates state) {
   }
   return color;
 }
+
+Widget buildListProduct(
+  model,
+  context, {
+  bool isOldPrice = true,
+}) =>
+    Padding(
+      padding: const EdgeInsets.all(20.0),
+      child: SizedBox(
+        height: 120.0,
+        child: Row(
+          children: [
+            Stack(
+              alignment: AlignmentDirectional.bottomStart,
+              children: [
+                Image(
+                  image: NetworkImage(model.image.toString()),
+                  height: 120.0,
+                  width: 120.0,
+                ),
+                if (model.discount != 0 && isOldPrice)
+                  Container(
+                    width: 90.0,
+                    padding: EdgeInsets.symmetric(horizontal: 5.0),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.all(Radius.circular(20.0)),
+                      color: Colors.red,
+                    ),
+                    child: Text(
+                      'DISCOUNT',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 16.0,
+                      ),
+                    ),
+                  ),
+              ],
+            ),
+            SizedBox(width: 20.0),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    model.name.toString(),
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                      fontSize: 16.0,
+                      height: 1.2,
+                    ),
+                  ),
+                  Spacer(),
+                  Row(
+                    children: [
+                      Text(
+                        model.price.toString(),
+                        style: TextStyle(
+                          fontSize: 14.0,
+                          color: defaultColor,
+                          height: 1.7,
+                        ),
+                      ),
+                      SizedBox(width: 5.0),
+                      if (model.discount != 0 && isOldPrice)
+                        Text(
+                          model.oldPrice.toString(),
+                          style: TextStyle(
+                            fontSize: 12.0,
+                            color: Colors.grey,
+                            decoration: TextDecoration.lineThrough,
+                          ),
+                        ),
+                      Spacer(),
+                      IconButton(
+                        onPressed: () {
+                          ShopCubit.get(context).changeFavorites(model.id);
+                        },
+                        icon: CircleAvatar(
+                          radius: 20,
+                          backgroundColor:
+                              ShopCubit.get(context).favorites[model.id]!
+                                  ? Colors.red
+                                  : Colors.grey,
+                          child: Icon(
+                            Icons.favorite_border,
+                            color: Colors.white,
+                            size: 22.0,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
